@@ -1,0 +1,21 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth; /* Enables smooth scrolling */
+}
+
+a {
+    text-decoration: none;
+}
+
+a, h1, h2, h3, h4, h5, h6, p, span, li, i, small {
+    color: whitesmoke;
+}
+
+body {
+    background-color: #1e1e1e;
+}

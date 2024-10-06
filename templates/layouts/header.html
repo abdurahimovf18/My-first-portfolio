@@ -1,0 +1,21 @@
+<header>
+    <nav>
+
+        <div class="logo">
+            <a href="{% url 'pages:home' %}"><i class="fa-solid fa-address-card"></i></a>
+        </div>
+        
+        <div class="urls">
+            <ul class="header-links">
+                <li><a href="{% url 'pages:home' %}#home"><i class="fa-solid fa-house"></i> Home</a></li>
+                <li><a href="{% url 'pages:home' %}#about"><i class="fa-solid fa-question"></i> About</a></li>
+                <li><a href="{% url 'pages:home' %}#skill"><i class="fa-solid fa-bolt-lightning"></i> Skills</a></li>
+                <li><a title="Open a github.com" href="{{ info.github_link }}"><i class="fa-solid fa-user"></i> Portfolio</a></li>
+                <li><a href="{% url 'pages:home' %}#review"><i class="fa-solid fa-comment"></i> Reviews</a></li>
+            </ul>
+    
+            <a class="contact-btn" href="#contact">Contact</a>
+        </div>
+        
+    </nav>
+</header>

@@ -1,0 +1,182 @@
+{% extends 'layouts/base.html' %}
+{% load static %}
+
+{% block content %}
+
+    <main id="home-main">
+
+        <section id="home">
+
+            <h1 class="section-title"><a class="a" href="#home">Welcome!</a> Here is a bit about <a class="a" href="#about">Me</a></h1>
+
+            <div class="programmer-image">
+                <div class="barrier"></div>
+                <img src="{{ info.image.url }}" alt="">
+            </div>
+
+            <h2 class="title">Hi!, I'm <a class="a" href="#about">Abdurahimov Fazliddin</a></h2>
+
+            <p>
+                I'm a <a class="a" href="#skill">Full Stack</a> developer with more than
+                <a class="a" href="#about">{{ info.experience }} years</a> of
+                experience. I created many
+                <a class="a" href="#skill">Web-Sites</a> and APIs
+                for many Web-Sites about many topics e.g. Restaurants,
+                Online-Shops and more. And I created
+                <a class="a" href="#skill">Telegram Bots</a>
+                with great architecture and usable features!
+            </p>
+            {% include 'layouts/links.html' %}
+
+        </section>
+
+        <section id="about" class="about-section">
+
+            <h1 class="section-title big-title"><b>About Me</b></h1>
+
+            <div class="about-div">
+
+                <h2><a class="a" href="#skill">Full Stack</a> developer with {{ info.experience }} years of experience ...</h2>
+
+                <p>
+                    Hello! I'm <a class="a" href="#home">Fazliddin Abdurahimov</a>,
+                    a <a href="#skill">Full Stack</a> Web Developer.
+                    <br><br>
+                    I have been in this field since
+                    I was 14. Due to my early interest in
+                    programming, I have gained excellent
+                    practical experience in building
+                    monolithic websites using Python
+                    frameworks (<a class="a" href="#skill">Django</a>)
+                    and microskill-based backends with Python
+                    frameworks (<a class="a" href="#skill">FastAPI</a>).
+                    <br><br>
+                    I also have significant experience in
+                    developing <a class="a" href="#skill">Telegram bots</a> using Python
+                    frameworks (<a class="a" href="#skill">Aiogram</a>).
+                </p>
+
+            </div>
+
+        </section>
+
+        <section id="skill">
+
+            <h1 class="big-title">A bit about my <a class="a" href="#skill"> Skills</a></h1>
+
+            <div class="skills">
+                {% for category in skill_categories %}
+                    <div class="{{ category.name }}">
+                    <div class="logo">
+                        <i class="{{ category.icon_class_name }}"></i>
+                    </div>
+                    <p class="first-words">
+                        {{ category.description }}
+                    </p>
+                    <ul>
+                        {% for skill in category.skills.all %}
+                            <li><a href="#">{{ skill.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endfor %}
+            </div>
+
+        </section>
+
+        <section id="review">
+            <h1 class="big-title">Leave Your <a class="a" href="#other-reviews">Reviews</a></h1>
+
+            <form action="{% url 'pages:review' %}" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <label for="review-address">Your full name:</label>
+                <input type="text" id="review-address" name="full_name" placeholder="Your Full Name" required>
+
+                <label for="review-address">Your Address:</label>
+                <input type="text" id="review-address" name="address" placeholder="Your country and city" required>
+
+                <label for="review-image">Select an Image:</label>
+                <input type="file" id="review-image" name="image" accept="image/*" required>
+
+                <label for="review-rate">Rating:</label>
+                <select name="rating" id="review-rate" required>
+                    <option value="1">⭐☆☆☆☆</option>
+                    <option value="2">⭐⭐☆☆☆</option>
+                    <option value="3">⭐⭐⭐☆☆</option>
+                    <option value="4">⭐⭐⭐⭐☆</option>
+                    <option value="5" selected>⭐⭐⭐⭐⭐</option>
+                </select>
+
+                <label for="text-area">Your Review:</label>
+                <textarea name="content" id="text-area" cols="30" rows="5" placeholder="Write some cool review here :)" required></textarea>
+
+                <button type="submit">Post</button>
+            </form>
+
+            
+        </section>
+
+        <section id="other-reviews">
+            <h1 class="big-title">Other People's <a class="a" href="#review">Review</a>s</h1>
+            {% for review in reviews %}
+                <div class="review-cart">
+
+                <div class="review-header">
+
+                    <div class="img">
+                        <img class="review-img" src="{{ review.image.url }}" alt="">
+                    </div>
+
+                    <div class="right-header-part">
+                        <h3>{{ review.full_name }}</h3>
+                        <small>{{ review.address }}</small>
+                    </div>
+
+                </div>
+
+                {% if review.rating == 5 %}
+                    <p class="ratings">⭐⭐⭐⭐⭐</p>
+
+                {% elif review.rating == 4 %}
+                    <p class="ratings">⭐⭐⭐⭐☆</p>
+
+                {% elif review.rating == 3 %}
+                    <p class="ratings">⭐⭐⭐☆☆</p>
+
+                {% elif review.rating == 2 %}
+                    <p class="ratings">⭐⭐☆☆☆</p>
+
+                {% elif review.rating == 1 %}
+                    <p class="ratings">⭐☆☆☆☆</p>
+
+                {% endif %}
+
+                <p class="review-content">
+                    {{ review.content }}
+                </p>
+
+                <small>{{ review.updated_at|timesince }}</small>
+
+            </div>
+            {% endfor %}
+        </section>
+
+        <section id="contact">
+
+            <h1 class="big-title">Contact with <a class="a" href="#home">Me</a></h1>
+
+            <form id="contact-form" action="{% url 'pages:contact' %}" method="post">
+                {% csrf_token %}
+                <input name="name" type="text" placeholder="Your Full name" required>
+                <input name="email" type="email" placeholder="Your Email address" required>
+                <textarea name="message" id="" cols="" rows="" placeholder="The Message" required></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+
+            {% include 'layouts/links.html' %}
+
+        </section>
+
+    </main>
+
+{% endblock %}
